@@ -7,5 +7,6 @@ Currently in progress
 ## 📘 Overview
 This repository contains the analysis scripts and notebooks used to produce the results and figures in the manuscript.  
 The study integrates developmental and adult single-cell/nucleus and spatial transcriptomic data from **Xenopus laevis**, **mouse**, **human**, and **zebrafish** to explore the evolutionary origins of spinal cord neuronal diversity.
+
 ![](assets/overview.png)
 ---
