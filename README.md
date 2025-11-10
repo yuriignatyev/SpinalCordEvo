@@ -1,6 +1,6 @@
 Code for 'Innovations in Spinal Cord Cell Type Heterogeneity Across Vertebrate Evolution' by *Ignatyev et al.*, 2025 (https://www.biorxiv.org/content/10.1101/2025.10.09.680955v2)
 
-Datasets will be made available upon publication, and the repository will be updated with additional scripts as needed. 
+Datasets are currently available via private link and will be made available upon publication. The repository will be updated with additional scripts as needed. 
 
 ---
 
