@@ -22,13 +22,34 @@ if (is.null(opt$data_dir)) {
 # Set working directory
 setwd(opt$data_dir)
 
-# Load data
-frog <- readRDS('frog_SCTranformed_and_Labelled_for_integration_no_downsampling.rds')
-mouse <- readRDS('mouse_SCTranformed_and_Labelled_for_integration_no_downsampling.rds')
-ariel_neu <- readRDS('mouseRussLevine_SCTranformed_and_Labelled_for_integration_no_downsampling.rds')
-yadav <- readRDS('yadav_SCTranformed_and_Labelled_for_integration_no_downsampling.rds')
-gautier <- readRDS('gautier_SCTranformed_and_Labelled_for_integration_no_downsampling.rds')
-int.features <- readRDS('features_for_frogmousehuman_integration_when_7k_used_for_individualsctranforms.rds')
+
+
+frog <- readRDS('/nfs/scistore23/sweengrp/iignatev/Tetrapod_SC/Fig4/Adult_Frog_Dataset_Ready_For_Integration_Not_SCTransformed.rds')
+mouse <- readRDS('/nfs/scistore23/sweengrp/iignatev/Tetrapod_SC/Fig4/Adult_Mouse_KatheCourtine_Dataset_Ready_For_Integration_Not_SCTransformed.rds')
+ariel_neu <- readRDS('/nfs/scistore23/sweengrp/iignatev/Tetrapod_SC/Fig4/Adult_Mouse_RussLevine_Dataset_Ready_For_Integration_Not_SCTransformed.rds')
+yadav <- readRDS('/nfs/scistore23/sweengrp/iignatev/Tetrapod_SC/Fig4/Adult_Human_Dataset_Yadav_Ready_For_Integration_Not_SCTransformed.rds')
+gautier <- readRDS('/nfs/scistore23/sweengrp/iignatev/Tetrapod_SC/Fig4/Adult_Human_Dataset_Gautier_Ready_For_Integration_Not_SCTransformed.rds')
+
+ariel_neu$species <- 'Mouse'
+ariel_neu$coarse <- readRDS('/nfs/scistore23/sweengrp/iignatev/Tetrapod_SC/Fig4/mouse_russ_coarse_ids.rds')
+
+frog <- SCTransform(frog, vars.to.regress = c('nCount_RNA', 'nFeature_RNA'), variable.features.n = 10000,vst.flavor = "v2")
+mouse <- SCTransform(mouse, vars.to.regress =  c('nCount_RNA', 'nFeature_RNA', 'batch'), variable.features.n = 10000,vst.flavor = "v2")
+ariel_neu <- SCTransform(ariel_neu, vars.to.regress =  c('nCount_RNA', 'nFeature_RNA'), variable.features.n = 10000,vst.flavor = "v2")
+yadav <- SCTransform(yadav, vars.to.regress =  c('nCount_RNA', 'nFeature_RNA', 'sample'), variable.features.n = 10000,vst.flavor = "v2")
+gautier <- SCTransform(gautier, vars.to.regress =  c('nCount_RNA', 'nFeature_RNA'), variable.features.n = 10000,vst.flavor = "v2")
+
+
+frog.vf <- VariableFeatures(frog)
+mouse.vf <- VariableFeatures(mouse)
+ariel_neu.vf <- VariableFeatures(ariel_neu)
+yadav.vf <- VariableFeatures(yadav)
+gautier.vf <- VariableFeatures(gautier)
+
+int.features <- intersect(frog.vf, mouse.vf)
+int.features <- intersect(int.features, ariel_neu.vf)
+int.features <- intersect(int.features, yadav.vf)
+int.features <- intersect(int.features, gautier.vf)
 
 # Combine data
 sc.list_1 <- c(frog, c(mouse, ariel_neu))
@@ -50,4 +71,4 @@ sc.integrated <- RunUMAP(sc.integrated, dims = 1:150)
 sc.integrated <- FindNeighbors(sc.integrated, dims = 1:150)
 
 # Save results
-saveRDS(sc.integrated, 'fmh_integrated_no_downsampling_anchors_based_on_vf_overlap_from_sct_with_7k_19_07_24_5datasets.rds')
+saveRDS(sc.integrated, 'fmh_integrated_no_downsampling_anchors_based_on_vf_overlap_from_sct_with_10k_19_07_24_5datasets_1.rds')
