@@ -1,4 +1,4 @@
-# Bimodal filtering of low-quality cells based on library complexity
+# Bimodal filtering of low-quality cells in frog developmental single-cell dataset
 # Manual parameter values (lambda, mu, sigma) set based on visual inspection of log-transformed distributions
 
 library(Seurat)
