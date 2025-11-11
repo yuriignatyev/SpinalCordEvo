@@ -1,4 +1,4 @@
-#####!!!!!!!!!! INTEGRATING DEVELOPMENT DATA ACROSS FROG AND MOUSE
+###integrating  developmental data across species
 
 library(Seurat)
 set.seed(54)
