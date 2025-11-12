@@ -7,7 +7,7 @@ set.seed(54)
 
 ## mark species
 mouse$species <- 'Mouse'
-frog_m$species <- 'Frog'     ## minimal add
+frog_m$species <- 'Frog'   
 
 ## leave only cardinal classes
 cardinal_classes <- c('dI1','dI2','dI3','dI4','dI5','dI6','V0','V1','V2a','V2b','V3','MNs')
@@ -15,7 +15,7 @@ mouse  <- subset(mouse,  idents = cardinal_classes)
 frog_m <- subset(frog_m, idents = cardinal_classes)
 
 ## integration
-sc.list <- list(frog_m, mouse)   ## NOTE: list() is safer than c() for Seurat objects
+sc.list <- list(frog_m, mouse)   
 
 sc.list <- lapply(sc.list, function(x) {
   SCTransform(x, variable.features.n = 7000, verbose = FALSE)
@@ -23,8 +23,8 @@ sc.list <- lapply(sc.list, function(x) {
 
 features <- SelectIntegrationFeatures(object.list = sc.list, nfeatures = 7000)
 
-## remove Rgs/Rpl genes from features (cell-state genes)
-features <- setdiff(features, grep("^(Rgs|Rpl)", features, value = TRUE))  ## NOTE: same intent, safer
+## remove Rgs/Rpl genes from features 
+features <- setdiff(features, grep("^(Rgs|Rpl)", features, value = TRUE)) 
 
 sc.list <- PrepSCTIntegration(object.list = sc.list, anchor.features = features, verbose = FALSE)
 
