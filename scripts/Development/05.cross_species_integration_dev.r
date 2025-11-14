@@ -11,6 +11,10 @@ frog_m$species <- 'Frog'
 
 ## leave only cardinal classes
 cardinal_classes <- c('dI1','dI2','dI3','dI4','dI5','dI6','V0','V1','V2a','V2b','V3','MNs')
+
+mouse <- readRDS(/.../Delile2021_MouseDev_Neurons_CardinalClasses_IntegrationReady.rds)
+frog_m <- readRDS(/.../Xenopus54_Neurons_CardinalClasses_MouseOrthologs_IntegrationReady.rds)
+
 mouse  <- subset(mouse,  idents = cardinal_classes)
 frog_m <- subset(frog_m, idents = cardinal_classes)
 
@@ -37,7 +41,9 @@ scint <- IntegrateData(anchorset = sc.anchors, normalization.method = "SCT", ver
 scint <- RunPCA(scint, npcs = 50, verbose = FALSE)
 scint <- RunUMAP(scint, dims = 2:50, verbose = FALSE)
 
-saveRDS(scint, "Integration_DevFrogMouse_JustCardinalClassNeurons.rds")
+saveRDS(scint, "Xenopus_Mouse_Dev_Integration_CCA_Main_Cardinal_Classes.rds")
 
 scint <- FindNeighbors(scint, dims = 2:50, verbose = FALSE)
 scint <- FindClusters(scint, resolution = 0.9, verbose = FALSE)
+
+
