@@ -4,6 +4,8 @@ library(ComplexHeatmap)
 library(circlize)
 library(grid)
 
+dev <- readRDS('/.../Xenopus_Mouse_Dev_Integration_CCA_Main_Cardinal_Classes.rds')
+
 knn_graph <- dev@graphs$integrated_nn
 
 ## Identify cells by species
