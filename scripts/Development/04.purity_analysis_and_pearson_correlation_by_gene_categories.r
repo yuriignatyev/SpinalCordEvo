@@ -85,7 +85,7 @@ ggplot(purities, aes(x = purity, fill = category)) +
 
 ###PEARSON CORRELATIONS ACROSS SPECIES
 
-##first make sure to overlap (intersect) gene lists
+##first let's make sure to overlap (intersect) gene lists
 ##also, since we use scale.data slot, lets scale both of the data objects by their rownames in 'counts' slot 
 
 DefaultAssay(mouse) <- 'RNA'
