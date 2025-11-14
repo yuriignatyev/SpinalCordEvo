@@ -162,4 +162,4 @@ mouse_neu_ready <- RunUMAP(mouse_neu_ready, dims = 3:50)
 
 ## ----------save----------
 
-saveRDS(mouse_neu_ready, "Delile_neurons_cardinal_only.rds")
+saveRDS(mouse_neu_ready, "Delile2021_MouseDev_Neurons_CardinalClasses_IntegrationReady.rds")
