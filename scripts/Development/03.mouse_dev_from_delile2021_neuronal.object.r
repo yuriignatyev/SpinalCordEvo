@@ -3,11 +3,10 @@
 #Delile data - All data downloaded from github https://github.com/juliendelile/MouseSpinalCordAtlas/tree/master/dataset
 #their expanded metadata from their analysis https://github.com/juliendelile/MouseSpinalCordAtlas/tree/master/output
 
-## paths (edit these)
+## paths 
 counts_tsv   <- "/.../UMI_count.tsv"
 metadata_tsv <- ".../phenoData_annotated.csv"
 
-## pkgs
 library(Seurat)
 library(ggplot2)
 library(dplyr)
@@ -51,7 +50,6 @@ new_rownames <- ifelse(rownames(counts) %in% names(mapping),
 rownames(counts) <- make.unique(new_rownames)
 
 ## ---------- metadata ----------
-## note: their file is actually tab-delimited
 metadata <- read.delim(metadata_tsv, header = TRUE, quote = "\"", check.names = FALSE, stringsAsFactors = FALSE)
 colnames(metadata)[1] <- "cell.id"
 rownames(metadata) <- metadata$cell.id
@@ -64,7 +62,7 @@ metadata <- metadata[common_cells, , drop = FALSE]
 ## ---------- Seurat object ----------
 seu <- CreateSeuratObject(counts = counts, meta.data = metadata)
 
-## ---------- analysis: all cells → neurons ----------
+## ---------- all cells - neurons ----------
 seu <- NormalizeData(seu, verbose = FALSE)
 seu <- subset(seu, subset = nFeature_RNA > 1000)
 seu <- NormalizeData(seu, verbose = FALSE)
@@ -72,31 +70,30 @@ seu <- FindVariableFeatures(seu, selection.method = "vst")
 seu <- ScaleData(seu)
 seu <- RunPCA(seu, npcs = 50)
 
-## first 4 PCs = processes → use dims = 5:30
+## first 4 PCs = processes - use dims = 5:30
 seu <- RunUMAP(seu, dims = 5:30)
 seu <- FindNeighbors(seu, dims = 5:30)
 seu <- FindClusters(seu, resolution = 0.4)
 
-## quick look (optional)
+## quick look 
 # DimPlot(seu, label = TRUE, group.by = "replicate_id", label.size = 6, repel = TRUE)
 # DimPlot(seu, label = TRUE, label.size = 6, repel = TRUE)
 
-## choose neural clusters (your selection)
+## choose neural clusters 
 neu <- subset(seu, idents = c(1,2,3,7,12,13,14,15,18))
 ## 1,2,3,14,15,18 = INs; 13 = MNs; 7 = mixed prog/diff/neurons; 12 = diff
 
-## light reprocessing
 neu <- NormalizeData(neu)
 neu <- FindVariableFeatures(neu, selection.method = "vst", nfeatures = 7000)
 neu <- ScaleData(neu, features = rownames(neu))
 neu <- RunPCA(neu, npcs = 50, features = VariableFeatures(neu))
 
-## PC1 ribosomal → use dims = 2:30
+## PC1 ribosomal - use dims = 2:30
 neu <- RunUMAP(neu, dims = 2:30)
 neu <- FindNeighbors(neu, dims = 2:30)
 neu <- FindClusters(neu, resolution = 0.9)
 
-## check by replicate (optional)
+## check by replicate 
 # DimPlot(neu, label = TRUE, group.by = "replicate_id")
 
 ## ---------- integration by replicate (SCT) ----------
@@ -115,7 +112,7 @@ mouse_neu <- RunUMAP(mouse_neu, dims = 5:50)
 mouse_neu <- FindNeighbors(mouse_neu, dims = 5:50)
 mouse_neu <- FindClusters(mouse_neu, resolution = 2)
 
-## remove progenitors (cluster 28) if present
+## remove progenitors (cluster 28) 
 if ("28" %in% levels(mouse_neu)) {
   clusters_keep <- c(levels(mouse_neu)[1:28], levels(mouse_neu)[30:46])
   mouse_neu <- subset(mouse_neu, idents = clusters_keep)
@@ -125,7 +122,7 @@ if ("28" %in% levels(mouse_neu)) {
   mouse_neu <- FindClusters(mouse_neu, resolution = 2)
 }
 
-## rename clusters → neural types (your mapping)
+## rename clusters - neural types 
 mouse_neu <- RenameIdents(mouse_neu,
   '0'='dI5','1'='dI5','2'='dI5','3'='dI4','4'='dI4','5'='dI4','6'='dI5',
   '7'='7','8'='Differentiating','9'='dI5','10'='V1','11'='dI3','12'='Differentiating','13'='dI1','14'='dI4',
