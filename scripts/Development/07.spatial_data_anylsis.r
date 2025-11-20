@@ -318,8 +318,6 @@ sp$cell_type <- sp$prediction.id
 sp <- subset(sp, idents = c('Unassigned'), invert = TRUE)
 
 
-
-sp <- RenameIdents(sp, 'MNs' = 'Neurons')
 levels(sp) <- c('RP', 'FP', 'Progenitors and Diff', 'Neurons', 'Oligodendrocytes', 'Other')
 sp$prediction.id <- Idents(sp)
 
