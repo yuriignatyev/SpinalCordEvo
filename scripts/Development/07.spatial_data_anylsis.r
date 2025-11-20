@@ -6,7 +6,7 @@ all <- readRDS('/.../AllCells_Filtered_Labelled_Xenopus54_After_MixtoolsTreshold
 ##Mature Neurons and MNs
 neu <- readRDS('/.../Xenopus54_Neurons_CardinalClasses_Final_Labelled.rds')
 
-ll <- RenameIdents(all,'Neural Progenitors 2' = 'Neural Progenitors','Neural Progenitors 3' = 'Neural Progenitors',
+all <- RenameIdents(all,'Neural Progenitors 2' = 'Neural Progenitors','Neural Progenitors 3' = 'Neural Progenitors',
 'Differentiating Neurons 1' = 'Differentiating Neurons','Differentiating Neurons 2' = 'Differentiating Neurons',
 'Motor Neurons' = 'Neurons', 'Neural Crest' = 'Other','OCPs' = 'Other','Schwann Cells' = 'Other',
 'Mesoderm-derived' = 'Other','Myocytes' = 'Other', 'Immune' = 'Other','Endothelian' = 'Other','Skin' = 'Other')
