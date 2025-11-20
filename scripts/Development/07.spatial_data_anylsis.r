@@ -313,8 +313,6 @@ sp$prediction.id <- GetTransferPredictions(sp, score.filter = 0.5)
 Idents(sp) <- sp$prediction.id
 sp <- RenameIdents(sp, 'Differentiating Neurons' = 'Progenitors and Diff', 'Neural Progenitors' = 'Progenitors and Diff')
 sp$prediction.id <- Idents(sp)
-
-Idents(sp) <- sp$prediction.id
 sp$cell_type <- sp$prediction.id
 
 sp <- subset(sp, idents = c('Unassigned'), invert = TRUE)
