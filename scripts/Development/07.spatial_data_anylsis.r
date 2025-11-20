@@ -201,9 +201,6 @@ sp$region <- inout_labels
 ##Let's order slides so they go by animal and level
 Idents(sp) <- sp$slide
 
-levels(sp) <- c('C1_5', 'C1_6',  ##animal1, thoracic
-'B2_2','B2_3','B2_4','C1_1','C1_2','C1_3','C1_4',  #animal2, b2-2-b2-3 - brachial, b2-4-c1-2 - thoracic, c1-3-c1-4 - lumbar
-'A1_4','A1_5','C2_3','A1_2','A1_3','C2_1')  #animal3, a1-4-c2-3-thoracic, a1-2-c2-1-lumbar
 
 sp <- RenameIdents(sp, 'C1_5' = 'C1_5_Animal1_Thoracic', 'C1_6' = 'C1_6_Animal1_Thoracic',
 'B2_2' = 'B2_2_Animal2_Brachial', 'B2_3' = 'B2_3_Animal2_Brachial',
