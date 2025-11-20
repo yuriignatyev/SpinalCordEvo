@@ -8,7 +8,7 @@ neu <- readRDS('/.../Xenopus54_Neurons_CardinalClasses_Final_Labelled.rds')
 
 all <- RenameIdents(all,'Neural Progenitors 2' = 'Neural Progenitors','Neural Progenitors 3' = 'Neural Progenitors',
 'Differentiating Neurons 1' = 'Differentiating Neurons','Differentiating Neurons 2' = 'Differentiating Neurons',
-'Motor Neurons' = 'Neurons', 'Neural Crest' = 'Other','OCPs' = 'Other','Schwann Cells' = 'Other',
+'Motor Neurons' = 'MNs', 'Neural Crest' = 'Other','OCPs' = 'Other','Schwann Cells' = 'Other',
 'Mesoderm-derived' = 'Other','Myocytes' = 'Other', 'Immune' = 'Other','Endothelian' = 'Other','Skin' = 'Other')
 
 
@@ -20,7 +20,7 @@ Idents(all) <- all$labels
 all <- subset(all, idents = c(
   "Interneurons 1", "Peripheral Sensory Neurons", "Interneurons 5",
   "Interneurons 4", "Interneurons 2", "Cerebrospinal Fluid-Contacting Neurons",
-  "Serotonergic/Dopaminergic Neurons", "Interneurons 3", "Neurons", "Interneurons 6"
+  "Serotonergic/Dopaminergic Neurons", "Interneurons 3", "Interneurons 6"
 ), invert = TRUE)
 
 
@@ -36,7 +36,7 @@ all$labels[Cells(fp)] <- paste(Idents(fp))
 Idents(all) <- all$labels
 
 
-all <- RenameIdents(all, 'MNs' = 'Neurons', 'dI4' = 'Neurons','V1' = 'Neurons',
+all <- RenameIdents(all, 'dI4' = 'Neurons','V1' = 'Neurons',
 'dI1' = 'Neurons','dI5' = 'Neurons','V2a' = 'Neurons','dI3' = 'Neurons',
 'V0' = 'Neurons','dI2' = 'Neurons','V2b' = 'Neurons','V3' = 'Neurons','dI6' = 'Neurons')
 
@@ -225,7 +225,7 @@ manual_angles <- c(
   "B2_2_Animal2_Brachial" = -195, "B2_3_Animal2_Brachial" = -195, "C1_5_Animal1_Thoracic" = 10, "C1_6_Animal1_Thoracic" = 5,
   "B2_4_Animal2_Thoracic" = -195, "C1_1_Animal2_Thoracic" = -195,  "C1_2_Animal2_Thoracic" = -190,  "A1_4_Animal3_Thoracic" = -195,
   "A1_5_Animal3_Thoracic" = 15, "C2_3_Animal3_Thoracic" = 175,  "C1_3_Animal2_Lumbar" = -205,  "C1_4_Animal2_Lumbar" = 170,
-  "A1_2_Animal3_Lumbar" = 180,   "A1_3_Animal3_Lumbar" = 180,  "C2_1_Animal3_Lumbar" = 100
+  "A1_2_Animal3_Lumbar" = 180, "A1_3_Animal3_Lumbar" = 180,  "C2_1_Animal3_Lumbar" = 100
 )
 
 angles_radians <- manual_angles * pi / 180
@@ -291,14 +291,14 @@ dev.off()
 
 ## and perform label transfer to determine cell_types
 
-DefaultAssay(sp) <- 'RNA'
-sp <- NormalizeData(sp, features = rownames(sp))
+
+sp <- NormalizeData(sp)
 VariableFeatures(sp) <- rownames(sp)
 sp <- ScaleData(sp, features = rownames(sp))
 sp <- RunPCA(sp, npcs = 10, features = rownames(sp))
 
-DefaultAssay(all) <- 'RNA'
-all <- NormalizeData(all, features = rownames(sp))
+
+all <- NormalizeData(all)
 VariableFeatures(all) <- rownames(sp)
 all <- ScaleData(all, features = rownames(sp))
 all <- RunPCA(all, npcs = 10, features = rownames(sp))
@@ -310,16 +310,24 @@ predictions.assay <- TransferData(anchorset = anchors, refdata = Idents(all), pr
 sp[['predictions']] <- predictions.assay
 sp$prediction.id <- GetTransferPredictions(sp, score.filter = 0.5)
 
-Idents(sp) <- sp$prediction.id
-sp <- RenameIdents(sp, 'Differentiating Neurons' = 'Progenitors and Diff', 'Neural Progenitors' = 'Progenitors and Diff')
-sp$prediction.id <- Idents(sp)
+
+
+
+mns_sp <- subset(sp, idents = 'MNs')
+
 sp$cell_type <- sp$prediction.id
+
+Idents(sp) <- sp$prediction.id             
+sp <- RenameIdents(sp, 'MNs' = 'Neurons', 'Differentiating Neurons' = 'Progenitors and Diff', 'Neural Progenitors' = 'Progenitors and Diff')
+sp$prediction.id <- Idents(sp)
+
 
 sp <- subset(sp, idents = c('Unassigned'), invert = TRUE)
 
 
 levels(sp) <- c('RP', 'FP', 'Progenitors and Diff', 'Neurons', 'Oligodendrocytes', 'Other')
 sp$prediction.id <- Idents(sp)
+
 
 ##Lets plot results
 
