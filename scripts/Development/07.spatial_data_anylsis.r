@@ -148,7 +148,7 @@ meta <- merged_cell_stats
 sp <- CreateSeuratObject(spatial, meta.data = meta)
 
 
-##Now lets remove cells outside gray matter since they are uninformative by drawing borders manually on slides
+##Now lets remove cells outside gray matter since they are uninformative by drawing borders manually on slides 
 library(sp)
 
 
@@ -267,7 +267,7 @@ for (s in names(angles_radians)) {
 sp$x <- sp$x_rot
 sp$y <- sp$y_rot
 
-pdf('Supp1_Spatial_borders_Last.pdf', width = 14, height = 16)
+pdf('Supp7_Spatial_borders_Last.pdf', width = 14, height = 16)
 
 ggplot(sp@meta.data, aes(x = y, y = x, color = region)) +
   geom_point(size = 1, alpha = 0.5) +
@@ -314,8 +314,9 @@ sp$prediction.id <- GetTransferPredictions(sp, score.filter = 0.5)
 
 
 mns_sp <- subset(sp, idents = 'MNs')
+neu_sp <- subset(sp, idents = 'Neurons')
 
-sp$cell_type <- sp$prediction.id
+
 
 Idents(sp) <- sp$prediction.id             
 sp <- RenameIdents(sp, 'MNs' = 'Neurons', 'Differentiating Neurons' = 'Progenitors and Diff', 'Neural Progenitors' = 'Progenitors and Diff')
@@ -327,11 +328,12 @@ sp <- subset(sp, idents = c('Unassigned'), invert = TRUE)
 
 levels(sp) <- c('RP', 'FP', 'Progenitors and Diff', 'Neurons', 'Oligodendrocytes', 'Other')
 sp$prediction.id <- Idents(sp)
+sp$cell_types <- Idents(sp)
 
 
 ##Lets plot results
 
-pdf('Supp2_Spatial_CoarseTypes_Last1.pdf', width = 14, height = 16)
+pdf('Supp8_Spatial_CoarseTypes_Last.pdf', width = 14, height = 16)
 ggplot(sp@meta.data, aes(x = y, y = x, color = prediction.id)) +
   geom_point(size = 1, alpha = 0.65)  +
   facet_wrap(~ slide) +
@@ -353,12 +355,13 @@ ggplot(sp@meta.data, aes(x = y, y = x, color = prediction.id)) +
 
 dev.off()
 
+#let's save the spatial 'all cells' object
+saveRDS(sp, '/.../DevelopmentSpatialData/Xenopus_Adult_SpatialData_AllCells.rds')
 
 
-##Now - Neurons - cardinal class label transfer
 
-neu_sp <- subset(sp, idents = 'Neurons')
-
+##Now - Neurons - cardinal class assignment through correlating cardinal class markers' expression profiles between single-cells of spatial data and the scRNA-seq reference
+##neu_sp is our interneurons spatial object we just subsetted
 
 
 genes <- c("barhl1.L", "lhx2.S", "lhx9.S", "hmx3.L","isl1.L", "tlx3.L", 
@@ -430,13 +433,13 @@ for (i in seq_along(spot.names)) {
   spot_i <- spot.names[i]
   spot_vector <- sp_data_log[, spot_i]
   
-  # Skip if all values are NA
+  # skip if all values are NA
   if (all(is.na(spot_vector))) {
     # pred_cluster_corr[spot_i] stays NA
     next
   }
   
-  # Compute correlation with each cluster-average vector
+  # compute correlation with each cluster-average vector
   cors <- apply(cluster_avg_log, 2, function(ref_vector) {
     # watch out for zero-variance or all-NA
     if (sd(spot_vector, na.rm = TRUE) == 0 || 
@@ -448,7 +451,7 @@ for (i in seq_along(spot.names)) {
     }
   })
   
-  # If cors is all NA or empty, we can't pick a best cluster
+  # if cors is all NA or empty, we can't pick a best cluster
   if (length(cors) == 0 || all(is.na(cors))) {
     best_cl <- NA
   } else {
@@ -460,8 +463,7 @@ for (i in seq_along(spot.names)) {
 
 neu_sp$pred_corr <- pred_cluster_corr
 
-saveRDS(neu_sp, 'ResolveDev54_Last_Neurons_CardinalClasses.rds')
-
+## mns_sp is out motor neurons spatial object we subsetted 
 mns_sp <- subset(sp, idents = 'MNs')
 mns_sp$pred_corr <- 'MNs'
 
@@ -469,8 +471,21 @@ neu_sp <- merge(neu_sp, mns_sp)
 Idents(neu_sp) <- neu_sp$pred_corr
 neu_sp$neural_types <- neu_sp$pred_corr
 
-##Let's plot results for cardinal classes 
-pdf('Supp2_Spatial_CardinalClasses_Last.pdf', width = 14, height = 16)
+Idents(sp) <- sp$slide
+
+#lets order by level (brachial, thoracic, lumbar)
+levels(sp) <- c('B2_2_Animal2_Brachial', 'B2_3_Animal2_Brachial', 'C1_5_Animal1_Thoracic',
+'C1_6_Animal1_Thoracic', 'B2_4_Animal2_Thoracic', 'C1_1_Animal2_Thoracic',
+'C1_2_Animal2_Thoracic', 'A1_4_Animal3_Thoracic', 'A1_5_Animal3_Thoracic',
+'C2_3_Animal3_Thoracic', 'C1_3_Animal2_Lumbar', 'C1_4_Animal2_Lumbar',
+'A1_2_Animal3_Lumbar', 'A1_3_Animal3_Lumbar', 'C2_1_Animal3_Lumbar')
+
+sp$slide <- Idents(sp)
+
+Idents(sp) <- sp$pred_corr
+              
+## let's plot results for cardinal classes 
+pdf('Supp9_Spatial_CardinalClasses_Last.pdf', width = 14, height = 16)
 ggplot(neu_sp@meta.data, aes(x = y, y = x, color = pred_corr)) +
   geom_point(size = 1, alpha = 0.65)  +
   facet_wrap(~ slide) +
@@ -491,13 +506,11 @@ ggplot(neu_sp@meta.data, aes(x = y, y = x, color = pred_corr)) +
 
 dev.off()
 
-
-dents(neu_sp) <- neu_sp$pred_corr
-
-##Let's plot evrything else
+## let's save our neuronal object 
+saveRDS(neu_sp, '/.../DevelopmentSpatialData/Xenopus_Adult_SpatialData_Neurons.rds')
+              
+##Let's plot everything else
 ##Expression of cardinal class markers in neurons
-
-##merge with mns_sp - neu_sp <- merge(neu_sp, mns_sp)
 
 levels(neu_sp) <- rev(c('dI1', 'dI2', 'dI3', 'dI4', 'dI5', 'dI6', 'V0', 'V1', 'V2a', 'V2b', 'V3', 'MNs'))
 
@@ -510,6 +523,10 @@ genes_plot <- c("gad2.L","slc17a7.L", "barhl1.L", "lhx2.S", "hmx3.L","isl1.L", "
 
 
 DotPlot(neu_sp, features = genes_plot, cols = c('white', 'black'))  + RotatedAxis()
+
+#spatial densitied plot example
+
+  
               
 
 
