@@ -356,7 +356,7 @@ ggplot(sp@meta.data, aes(x = y, y = x, color = prediction.id)) +
 dev.off()
 
 #let's save the spatial 'all cells' object
-saveRDS(sp, '/.../DevelopmentSpatialData/Xenopus_Adult_SpatialData_AllCells.rds')
+saveRDS(sp, '/.../DevelopmentSpatialData/Xenopus_st54_SpatialData_AllCells.rds')
 
 
 
@@ -507,7 +507,7 @@ ggplot(neu_sp@meta.data, aes(x = y, y = x, color = pred_corr)) +
 dev.off()
 
 ## let's save our neuronal object 
-saveRDS(neu_sp, '/.../DevelopmentSpatialData/Xenopus_Adult_SpatialData_Neurons.rds')
+saveRDS(neu_sp, '/.../DevelopmentSpatialData/Xenopus_st54_SpatialData_Neurons_CardinalClasses.rds')
               
 ##Let's plot everything else
 ##Expression of cardinal class markers in neurons
