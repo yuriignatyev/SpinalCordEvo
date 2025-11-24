@@ -524,7 +524,53 @@ genes_plot <- c("gad2.L","slc17a7.L", "barhl1.L", "lhx2.S", "hmx3.L","isl1.L", "
 
 DotPlot(neu_sp, features = genes_plot, cols = c('white', 'black'))  + RotatedAxis()
 
-#spatial densitied plot example
+#spatial density plot example for one slide
+
+Idents(neu_sp) <- neu_sp$slide
+
+c1_3 <- subset(neu_sp, idents = 'C1_3_Animal2_Lumbar')
+meta_data <- c1_3@meta.data
+subset_data <- meta_data
+
+density_data <- subset_data %>%
+  group_by(pred_corr) %>%
+  do(data.frame(density = density(.$x)$y,
+                x = density(.$x)$x))
+
+density_data <- density_data %>%
+  group_by(pred_corr) %>%
+  mutate(normalized_density = density / max(density))
+
+custom_colors <- c(
+  "dI1" = "orange",  
+  "dI2" = "gold",
+  "dI3" = "tomato1",  
+  "dI4" = "goldenrod3",
+  "dI5" = "olivedrab2", 
+  "dI6" = "darkolivegreen", 
+  "V0"  = "lightslateblue", 
+  "V1"  = "maroon1",  
+  "V2a" = "violet", 
+  "V2b" = "violetred",
+  "V3"  = "lightpink1",
+  "MNs"  = "green3"
+)
+
+
+##plot density for c1_3 
+pdf('C1_3_cardinal_class_densities2.pdf', width = 11, height = 4)
+ggplot(density_data, aes(x = x, y = normalized_density, color = pred_corr, fill = pred_corr)) +
+  geom_ribbon(aes(ymin = 0, ymax = normalized_density), alpha = 0.4) +
+  geom_line() +
+  labs(title = "Normalized Density of Cell Distributions by Cardinal Class",
+       x = "X-axis",
+       y = "Normalized Density") +
+  scale_color_manual(values = custom_colors) +
+  scale_fill_manual(values = custom_colors) +
+  theme_minimal() +
+  theme(legend.position = "right")
+
+dev.off()
 
   
               
