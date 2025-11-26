@@ -4,7 +4,7 @@ library(ggplot2)
 library(ggtern)
 library(patchwork) 
 
-
+# int here is your cross-species integrated object
 
 int$species <- as.factor(int$species)
 
