@@ -70,5 +70,5 @@ sc.integrated <- RunPCA(sc.integrated, npcs = 150)
 sc.integrated <- RunUMAP(sc.integrated, dims = 1:150)
 sc.integrated <- FindNeighbors(sc.integrated, dims = 1:150)
 
-# Save results
-saveRDS(sc.integrated, 'fmh_integrated_no_downsampling_anchors_based_on_vf_overlap_from_sct_with_10k_19_07_24_5datasets_1.rds')
+# Clean up metadata and Save results
+saveRDS(sc.integrated, 'Neurons_Integrated_Across_FrogMouseHuman_CCA.rds')
