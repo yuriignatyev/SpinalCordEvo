@@ -4,7 +4,7 @@ library(ggplot2)
 library(ggtern)
 library(patchwork) 
 
-# int here is your cross-species integrated object
+# Int here is your cross-species integrated object
 
 int$species <- as.factor(int$species)
 
@@ -36,12 +36,9 @@ cluster_species_df <- cluster_species_df %>%
   ) %>%
   ungroup()
 
-# 5. Identify Clusters with >=10% Representation for All Species
-# (This step is now adjusted to reflect higher thresholds)
-# No longer used for hard color override
-# Removed the 'all_above_10' flag to allow smooth blending
 
-# 6. Apply Square Root Transformation to Species Proportions
+
+# 5. Apply Square Root Transformation to Species Proportions
 cluster_species_df <- cluster_species_df %>%
   mutate(
     frog_prop_sqrt = sqrt(frog_prop),
@@ -49,7 +46,7 @@ cluster_species_df <- cluster_species_df %>%
     mouse_prop_sqrt = sqrt(mouse_prop)
   )
 
-# 7. Normalize the Transformed Proportions
+# 6. Normalize the Transformed Proportions
 cluster_species_df <- cluster_species_df %>%
   rowwise() %>%
   mutate(
@@ -60,12 +57,12 @@ cluster_species_df <- cluster_species_df %>%
   ) %>%
   ungroup()
 
-# 8. Define Base Colors for Each Species (RGB, [0,1] scale)
+# 7. Define Base Colors for Each Species (RGB, [0,1] scale)
 frog_color  <- c(0, 255, 0) / 255      # Green
 human_color <- c(255, 0, 0) / 255      # Red
 mouse_color <- c(0, 0, 255) / 255      # Blue
 
-# 9. Combine Adjusted Proportions with Base Colors
+# 8. Combine Adjusted Proportions with Base Colors
 cluster_species_df <- cluster_species_df %>%
   rowwise() %>%
   mutate(
@@ -75,7 +72,7 @@ cluster_species_df <- cluster_species_df %>%
   ) %>%
   ungroup()
 
-## 10. Calculate Standard Deviation of Adjusted Proportions
+## 9. Calculate Standard Deviation of Adjusted Proportions
 cluster_species_df <- cluster_species_df %>%
   rowwise() %>%
   mutate(
@@ -83,10 +80,10 @@ cluster_species_df <- cluster_species_df %>%
   ) %>%
   ungroup()
 
-# 11. Define Blend Factor Based on Minimum Species Proportion
+# 10. Define Blend Factor Based on Minimum Species Proportion
 # Define thresholds
-threshold_min <- 0.05  # Increased from 10% to 15% to start blending later
-threshold_max <- 0.20  # Increased from 20% to 25% to complete blending later
+threshold_min <- 0.05  
+threshold_max <- 0.20  
 
 blend_power <- 0.5  # Controls the smoothness of blending
 
@@ -106,7 +103,7 @@ cluster_species_df <- cluster_species_df %>%
     blend_factor = pmin(pmax(blend_factor, 0), 1)
   )
 
-# 12. Blend RGB Values Towards Gray
+# 11. Blend RGB Values Towards Gray
 gray_point <- 0.75  # Adjusted gray shade
 
 cluster_species_df <- cluster_species_df %>%
@@ -121,18 +118,18 @@ cluster_species_df <- cluster_species_df %>%
     color = rgb(R_adj, G_adj, B_adj)
   )
 
-# 13. Assign Colors to Clusters
+# 12. Assign Colors to Clusters
 cluster_colors <- cluster_species_df$color
 names(cluster_colors) <- cluster_species_df$cluster
 
-# 14. Create a Vector of Colors for Each Cell Based on Cluster
+# 13. Create a Vector of Colors for Each Cell Based on Cluster
 cell_cluster_colors <- cluster_colors[as.character(int$seurat_clusters)]
 names(cell_cluster_colors) <- colnames(int)
 
-# 15. Add Cluster Colors to Seurat Object's Metadata
+# 14. Add Cluster Colors to Seurat Object's Metadata
 int$cluster_color <- cell_cluster_colors
 
-# 16. Extract UMAP Embeddings
+# 15. Extract UMAP Embeddings
 umap_df <- Embeddings(int, "umap") %>% as.data.frame()
 
 # Ensure the row names match between embeddings and metadata
@@ -140,7 +137,7 @@ if (!identical(rownames(umap_df), colnames(int))) {
   umap_df <- umap_df[match(colnames(int), rownames(umap_df)), ]
 }
 
-# 17. Add Cluster Colors and Cluster IDs to UMAP Data Frame
+# 16. Add Cluster Colors and Cluster IDs to UMAP Data Frame
 umap_df <- umap_df %>%
   mutate(
     cluster_color = int$cluster_color,
@@ -150,14 +147,14 @@ umap_df <- umap_df %>%
 # Rename UMAP Columns if Necessary
 colnames(umap_df)[1:2] <- c("UMAP_1", "UMAP_2")
 
-# 18. Generate UMAP Plot with Custom Color Scheme
+# 17. Generate UMAP Plot with Custom Color Scheme
 umap_plot <- ggplot(umap_df, aes(x = UMAP_1, y = UMAP_2, color = cluster_color)) +
   geom_point(size = 0.5) +
   scale_color_identity() +
   theme_void() +
   labs(title = "UMAP of Clusters Colored by Species Mixing")
 
-# 19. Create Ternary Plot as Legend
+# 18. Create Ternary Plot as Legend
 # Prepare data for ternary plot
 ternary_df <- cluster_species_df %>%
   select(cluster, frog_prop, human_prop, mouse_prop, color)
