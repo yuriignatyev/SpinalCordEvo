@@ -4,7 +4,8 @@ library(ggplot2)
 library(ggtern)
 library(patchwork) 
 
-# Int here is your cross-species integrated object
+# Int here is your cross-species integrated object, for example, dorsal excitatory integrated neurons subset
+int <- readRDS('/.../DorsalExcitatoryNeurons_Integrated_Subset_Across_FrogMouseHuman_CCA.rds')
 
 int$species <- as.factor(int$species)
 
