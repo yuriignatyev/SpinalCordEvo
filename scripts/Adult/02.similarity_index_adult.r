@@ -72,7 +72,7 @@ library(circlize)
 color.heatmap <- colorRamp3(c(0.01 , 0.03, 0.07, 0.1, 0.13, 0.15, 0.23), c('grey100', 'grey95','grey90','grey80','grey26','grey10','grey0'))
 
 
-Heatmap(sim_frog_mouse,  cluster_rows = FALSE, cluster_columns = FALSE, 
+Heatmap(sim_frog_mouse, col = color.heatmap, cluster_rows = FALSE, cluster_columns = FALSE, 
               show_heatmap_legend = TRUE, row_names_side = "left", 
               name = "Similarity",
               cell_fun = function(j, i, x, y, width, height, fill) {
@@ -82,7 +82,7 @@ Heatmap(sim_frog_mouse,  cluster_rows = FALSE, cluster_columns = FALSE,
 
 
 
-Heatmap(sim_frog_human,  cluster_rows = FALSE, cluster_columns = FALSE, 
+Heatmap(sim_frog_human, col = color.heatmap, cluster_rows = FALSE, cluster_columns = FALSE, 
               show_heatmap_legend = TRUE, row_names_side = "left", 
               name = "Similarity",
               cell_fun = function(j, i, x, y, width, height, fill) {
