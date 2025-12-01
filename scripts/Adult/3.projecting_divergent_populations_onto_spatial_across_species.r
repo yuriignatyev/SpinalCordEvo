@@ -42,7 +42,7 @@ Idents(fmh) <- fmh$species
 frog_int <- subset(fmh, idents = 'Frog')
 
 frog_int$consdiv <- 'Conserved'
-frog_int$lab[Cells(exc_frog)] <- paste(Idents(exc_frog))
+frog_int$consdiv[Cells(exc_frog)] <- paste(Idents(exc_frog))
 frog@meta.data$consdiv <- frog_int@meta.data$consdiv
 
 Idents(frog) <- frog$consdiv
