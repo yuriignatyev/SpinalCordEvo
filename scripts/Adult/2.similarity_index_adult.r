@@ -1,3 +1,0 @@
-library(Seurat)
-
-int <- readRDS('/.../')
