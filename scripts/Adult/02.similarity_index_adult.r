@@ -1,7 +1,4 @@
 library(Seurat)
-library(ComplexHeatmap)
-library(CellChat)
-library(circlize)
 
 #loading interated neuronal object
 int <- readRDS('/.../Neurons_Integrated_Across_FrogMouseHuman_CCA.rds')
@@ -38,9 +35,9 @@ compute_similarity <- function(cluster1_cells, cluster2_cells, species1, species
   colnames(sim_matrix) <- paste(species2, neural_types, sep = " ")
   
   for (i in seq_along(neural_types)) {
-    cluster1_i <- cluster1_cells[combined$neural_types[cluster1_cells] == neural_types[i]]
+    cluster1_i <- cluster1_cells[int$neural_types[cluster1_cells] == neural_types[i]]
     for (j in seq_along(neural_types)) {
-      cluster2_j <- cluster2_cells[combined$neural_types[cluster2_cells] == neural_types[j]]
+      cluster2_j <- cluster2_cells[int$neural_types[cluster2_cells] == neural_types[j]]
       
       if (length(cluster1_i) > 0 && length(cluster2_j) > 0) {
         # Compute the overlap for cluster1 to cluster2 neural types
