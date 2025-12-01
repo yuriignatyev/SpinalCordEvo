@@ -12,7 +12,7 @@ int <- FindNeighbors(int, dims = 1:150, k.param = 20)
 neural_types <- c('Exc', 'Inh', 'Vent')
 k.mnn <- 20
 
-int <- combined@graphs$integrated_nn
+knn_graph <- int@graphs$integrated_nn
 
 # Identify cells by species
 Frog_cells <- which(int$species == "Frog")
