@@ -1,4 +1,6 @@
 #Let's load the full list of neuronal objects arcross studies
+library(Seurat)
+
 sc.list <- readRDS('/.../List_of_Individual_SpeciesStudy_Neuronal_Objects_FrogMouseHumanZebrafish_SCTrasformed_Ready_for_Integration.rds')
 
 frog <- sc.list[[1]]
