@@ -23,10 +23,10 @@ sc.list <- c(sc.list[[1]], sc.list[[2]], sc.list[[3]], sc.list[[4]], sc.list[[5]
 # Prepare for integration
 sc.list.prep <- PrepSCTIntegration(object.list = sc.list, anchor.features = int.features, assay = 'SCT')
 
-# Find integration anchors
+# Find integration anchors, for integration via RPCA change reduction to reduction = 'rpca'
 sc.anchors <- FindIntegrationAnchors(object.list = sc.list.prep, normalization.method = "SCT", anchor.features = int.features, reduction = 'cca')
 
-# Integrate data
+# Integrate data, for integration via RPCA change dims and npcs to 50
 sc.integrated <- IntegrateData(anchorset = sc.anchors, normalization.method = "SCT",  dims=1:150)
 
 # Run PCA, UMAP, and find neighbors
