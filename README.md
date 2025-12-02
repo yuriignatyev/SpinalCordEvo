@@ -27,8 +27,8 @@ The repository is organized into subdirectories corresponding to the analyses us
       • frog spatial data analysis (08.), Fig.2F-I, Supp7-9 <br>
       
     - **Adult** (Figures **3–4**, Supplementary **S11–S18**) <br>
-      • frog adult snrna-seq data processing  (01.) <br> -  Fig.3
-      • frog adult spatial data processing (02.) <br> - Fig.3
+      • frog adult snrna-seq data processing  (01.) -  Fig.3 <br>
+      • frog adult spatial data processing (02.) - Fig.3 <br>
       • adult integration (03.) <br>
       • similarity index in adult (04.) - Fig.4F <br>
       • species mixing (05.), Fig.4, Supp18 <br>
