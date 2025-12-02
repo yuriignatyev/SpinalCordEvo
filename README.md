@@ -18,18 +18,18 @@ The repository is organized into subdirectories corresponding to the analyses us
 - **scripts/**
   - Contains codes used for data processing and cross-species analyses.
   - Analyses are grouped into:
-    - **Development** (Figures **1–2**, Supplementary **S1–S9**)  
-      • data processing (01.-03.)
-      • transforming frog data into mouse format (04. - was also used for transforming **adult** frog data)
-      • purity analysis and Pearson correlation of cardinal class expression profiles (05.) - Fig.2D, Supp4 
-      • developmental integration (06.) - Fig.2E, Supp3
-      • similarity index in development (07.), Fig.2E, Supp3
-      • frog spatial data analysis (08.), Fig.2F-I, Supp7-9
+    - **Development** (Figures **1–2**, Supplementary **S1–S9**)
+      • data processing (01.-03.) <br>
+      • transforming frog data into mouse format (04. - was also used for transforming **adult** frog data) <br>
+      • purity analysis and Pearson correlation of cardinal class expression profiles (05.) - Fig.2D, Supp4 <br>
+      • developmental integration (06.) - Fig.2E, Supp3 <br>
+      • similarity index in development (07.), Fig.2E, Supp3 <br>
+      • frog spatial data analysis (08.), Fig.2F-I, Supp7-9 <br>
       
     - **Adult** (Figures **3–4**, Supplementary **S11–S18**)  
-      • adult integration (01.)
-      • similarity index in adult (02.) - Fig.4F
-      • species mixing (03.), Fig.4, Supp18
+      • adult integration (01.) <br>
+      • similarity index in adult (02.) - Fig.4F <br>
+      • species mixing (03.), Fig.4, Supp18 <br>
       • projecting divergent and conserved populations onto frog and mouse spatial data (04.), Fig.4J
     
 ---
