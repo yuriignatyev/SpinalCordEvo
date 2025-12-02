@@ -1,4 +1,4 @@
-## ===== SIM MATRIX ON INTEGRATED OBJECT  =====
+## similarity index 
 
 library(ComplexHeatmap)
 library(circlize)
@@ -17,6 +17,7 @@ sim_frog_mouse <- matrix(0, nrow = length(neural_types), ncol = length(neural_ty
 rownames(sim_frog_mouse) <- paste("Frog",  neural_types)
 colnames(sim_frog_mouse) <- paste("Mouse", neural_types)
 
+#Here we show the example on k.mnn = 20
 k.mnn <- 20
 
 # Function to compute the similarity matrix for two species
