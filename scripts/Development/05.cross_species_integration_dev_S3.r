@@ -2,7 +2,8 @@
 
 library(Seurat)
 
-
+mouse <- readRDS('/.../Delile2021_MouseDev_Neurons_CardinalClasses_IntegrationReady.rds')
+from_m <- readRDS('/.../Xenopus54_Neurons_CardinalClasses_MouseOrthologs_IntegrationReady.rds')
 
 
 ## mark species
@@ -30,8 +31,10 @@ features <- SelectIntegrationFeatures(object.list = sc.list, nfeatures = 7000)
 ## remove Rgs/Rpl genes from features 
 features <- setdiff(features, grep("^(Rgs|Rpl)", features, value = TRUE)) 
 
+
 sc.list <- PrepSCTIntegration(object.list = sc.list, anchor.features = features, verbose = FALSE)
 
+#for integration via RPCA put reduction = 'rpca'
 sc.anchors <- FindIntegrationAnchors(object.list = sc.list,
                                      normalization.method = "SCT",
                                      anchor.features = features,
@@ -42,6 +45,9 @@ scint <- RunPCA(scint, npcs = 50, verbose = FALSE)
 scint <- RunUMAP(scint, dims = 2:50, verbose = FALSE)
 
 saveRDS(scint, "Xenopus_Mouse_Dev_Integration_CCA_Main_Cardinal_Classes.rds")
+
+#or, if RPCA - saveRDS(scint, "Xenopus_Mouse_Dev_Integration_RPCA_Cardinal_Classes.rds")
+
 
 scint <- FindNeighbors(scint, dims = 2:50, verbose = FALSE)
 scint <- FindClusters(scint, resolution = 0.9, verbose = FALSE)
