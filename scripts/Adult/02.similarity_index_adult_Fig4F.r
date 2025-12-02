@@ -1,7 +1,7 @@
 library(Seurat)
 
 #loading interated neuronal object
-int <- readRDS('/.../Neurons_Integrated_Across_FrogMouseHuman_CCA.rds')
+int <- readRDS('/.../Neurons_Integrated_Across_FrogMouseHuman_CCA.rds') # here's the example on CCA data
 
 int$neural_types <- int$coarse
 int <- FindNeighbors(int, dims = 1:150, k.param = 20)
