@@ -19,7 +19,7 @@ The repository is organized into subdirectories corresponding to the analyses us
   - Contains codes used for data processing and cross-species analyses.
   - Analyses are grouped into:
     - **Development** (Figures **1–2**, Supplementary **S1–S9**)  
-      Data processing (01.-03.), purity analysis (04.), developmental integration (05.), similarity index (06.), frog spatial data analysis (07.)
+      Data processing (01.-03.), transforming frog data into mouse format (04. - was also used for transforming **adult** frog data), purity analysis and pearson correlation (05.), developmental integration (06.), similarity index (07.), frog spatial data analysis (08.)
     - **Adult** (Figures **3–4**, Supplementary **S11–S18**)  
       Adult integration (01.),  similarity index (02.), species mixing (03.), projecting divergent and conserved populations onto frog and mouse spatial data (04.)
     
