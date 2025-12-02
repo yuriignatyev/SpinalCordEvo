@@ -18,7 +18,7 @@ The repository is organized into subdirectories corresponding to the analyses us
 - **scripts/**
   - Contains codes used for data processing and cross-species analyses.
   - Analyses are grouped into:
-    - **Development** (Figures **1–2**, Supplementary **S1–S9**)
+    - **Development** (Figures **1–2**, Supplementary **S1–S9**) <br>
       • data processing (01.-03.) <br>
       • transforming frog data into mouse format (04. - was also used for transforming **adult** frog data) <br>
       • purity analysis and Pearson correlation of cardinal class expression profiles (05.) - Fig.2D, Supp4 <br>
