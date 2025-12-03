@@ -8,7 +8,7 @@ russ <- sc.list[[2]]
 kathe <- sc.list[[3]]
 gautier <- sc.list[[4]]
 yadav <- sc.list[[5]]
-## if you want to add zebrafish as well - see Fig4. L-N, it is stored in the list of object as [[6]]  
+## if you want to add zebrafish as well (see Fig4. L-N), it is stored in the list of objects as [[6]]  
 # zebrafish <- sc.list[[6]]
 
 
